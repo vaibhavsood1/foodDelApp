@@ -94,12 +94,14 @@
     
  <div class="list-group">
  <% for(var i  =0;i<eatable.length;i++){ %>
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+  <a href="/delete/<%= eatable[i]._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1"><%= eatable[i].itemName %></h5>
       <small>Price: <%= eatable[i].price %></small>
     </div>
-    <p class="mb-1"><%= eatable[i].desc %></p>
+    <p class="mb-1"><%= eatable[i].desc %>
+   
+    </p>
    
   </a>
   <% } %>
@@ -114,5 +116,6 @@
         
     </div>
     <a href = "/">Go back!</a>
+    <a href = "/entermenu">Add a new item to the Menu</a>
 </body>
 </html>

@@ -214,4 +214,12 @@ app.get("/menu",function(req, res) {
     
     
 })
+app.get("/delete/:id",function(req, res) {
+     eatable.findByIdAndRemove(req.params.id,function(err){
+        if(!err){
+            res.redirect("/menu")
+        }
+})
+})
+
 app.listen(process.env.PORT,process.env.IP);
