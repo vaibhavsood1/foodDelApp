@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 var passport = require("passport");
 var user = require("./models/user.js");
+var eatable = require("./models/eatables.js");
 var info  =require("./models/userInfo.js");
 var LocalStrategy = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
@@ -75,8 +76,8 @@ app.get("/",function(req,res){
         info.find({username:req.user.username},function(err, info) {
         if(!err){
             
-            info.find({vendor:"0"},function(err,users){
-                if(!err){
+            // info.find({vendor:0},function(err,users){
+            //     if(!err){
                  if(!info[0]){
                     res.render("homepage.ejs",{info:"no",count:users.length})
                     
@@ -175,6 +176,42 @@ app.get("/viewInfo",isLoggedIn,function(req, res) {
             
         }
     })
+    
+})
+
+app.get("/enterMenu",function(req, res) {
+    res.render("menu.ejs")
+})
+
+app.post("/menu",function(req, res) {
+    
+    eatable.create(req.body.menu,function(err,eatable){
+                if(!err){
+                    eatable.author = req.user;
+                    eatable.username = req.user.username;
+                    
+                    
+                    console.log(info);
+                   
+                    eatable.save();
+                    res.redirect("/menu")
+                }
+                
+            })
+    
+})
+app.get("/menu",function(req, res) {
+    
+    eatable.find({username:req.user.username},function(err, eatable) {
+        if(!err){
+            
+            res.render("showMenu.ejs",{eatable:eatable})
+            
+            
+        }
+        
+    })
+    
     
 })
 app.listen(process.env.PORT,process.env.IP);
