@@ -221,5 +221,55 @@ app.get("/delete/:id",function(req, res) {
         }
 })
 })
+app.get("/allvendors",isLoggedIn,function(req, res) {
+    
+    info.find({username:req.user.username},function(err, infos) {
+        if(!err){
+            
+            if(!infos[0]){
+                
+                info.find({vendor:1},function(err,vendors){
+                    if(!err){
+                        
+                        
+                         res.render("allVendors.ejs",{info:"no",vendors:vendors})
+                    }
+                    
+                    
+                    
+                })
+                
+                
+                
+            }else{
+                
+                info.find({vendor:1},function(err,vendors){
+                    if(!err){
+                        
+                        
+                         res.render("allVendors.ejs",{info:infos[0],vendors:vendors})
+                    }
+                    
+                    
+                    
+                })
+                
+                
+               
+                
+            }
+            
+            
+            
+            
+        }
+    })
+    
+    
+    
+    
 
+    
+    
+})
 app.listen(process.env.PORT,process.env.IP);
