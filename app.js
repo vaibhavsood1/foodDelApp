@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 var passport = require("passport");
 var user = require("./models/user.js");
+var cart = require("./models/cart.js");
 var eatable = require("./models/eatables.js");
 var info  =require("./models/userInfo.js");
 var LocalStrategy = require("passport-local");
@@ -54,6 +55,8 @@ app.post("/register", function(req, res){
         });
     });
 });
+
+
 
 app.get("/login",function(req, res) {
     res.render("login.ejs");
@@ -271,5 +274,104 @@ app.get("/allvendors",isLoggedIn,function(req, res) {
 
     
     
+})
+app.get("/listitems/:username",function(req, res) {
+    
+    info.find({username:req.user.username},function(err, infos) {
+        if(!err){
+            
+            if(!infos[0]){
+                
+                info.find({vendor:1},function(err,vendors){
+                    if(!err){
+                        eatable.find({username:req.params.username},function(err, eatable) {
+                            if(!err){
+                                
+                            res.render("listItems.ejs",{info:"no",vendors:vendors,eatable:eatable})
+
+                                
+                                
+                                
+                            }
+                        })
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    }
+                    
+                    
+                    
+                })
+                
+                
+                
+            }else{
+                
+                info.find({vendor:1},function(err,vendors){
+                    if(!err){
+                        
+                        
+                        
+                        eatable.find({username:req.params.username},function(err, eatable) {
+                            if(!err){
+                                
+                            res.render("listItems.ejs",{info:infos[0],vendors:vendors,eatable:eatable})
+
+                                
+                            }
+                        })
+                        
+                    }
+                    
+                    
+                    
+                })
+                
+                
+               
+                
+            }
+            
+            
+            
+            
+        }
+    })
+    
+    
+    
+    
+})
+app.get("/additem/:name/:price/:username",function(req, res) {
+     cart.create({username:req.user.username,item:req.params.name,price:req.params.price},function(err,cart){
+                if(!err){
+                   
+                    console.log(cart)
+                    cart.save();
+                    res.redirect("/listitems/" + req.params.username);
+                }
+                
+            })
+    
+})
+app.get("/cart",function(req, res) {
+    
+    cart.find({username:req.user.username},function(err, cart) {
+        if(!err){
+            
+            res.render("cart.ejs",{cart:cart})
+            
+        }
+        
+        
+        
+    })
+    
+    
+
 })
 app.listen(process.env.PORT,process.env.IP);

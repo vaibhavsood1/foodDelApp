@@ -121,39 +121,23 @@
 </div>
 
     <div class = "container">
-    
-    <div class = "row">
-    
-    <%  for(var i  =0 ;i<vendors.length;i++){  %>
-    
-    <div class = "col-4">
-    <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="http://www.logofound.com/wp-content/uploads/2015/08/ecofood-logo-02.jpg" alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title"><%= vendors[i].name %></h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="/listitems/<%= vendors[i].username %>" class="btn btn-primary">Buy Food</a>
-  </div>
+        <div class="list-group">
+ <% for(var i  =0;i<eatable.length;i++){ %>
+  <a href="/additem/<%= eatable[i].itemName %>/<%= eatable[i].price %>/<%= eatable[i].username %>" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1"><%= eatable[i].itemName %></h5>
+      <small>Price: <%= eatable[i].price %></small>
+    </div>
+    <p class="mb-1"><%= eatable[i].desc %>
+   
+    </p>
+   
+  </a>
+  <% } %>
+  
 </div>
-    
+        
     </div>
-    
-  <%  } %>
-    
-    </div>
-    
-    
-    
-    
-    
-    </div>
-    
-    
-    
-    
-    
-    
-    
     
     
 </div>
