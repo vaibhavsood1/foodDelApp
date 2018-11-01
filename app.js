@@ -85,6 +85,10 @@ app.get("/",function(req,res){
                     res.render("homepage.ejs",{info:"no",count:users.length})
                     
                 }else{
+                    
+                    
+                    
+                    
                     res.render("homepage.ejs",{info:infos[0],count:users.length})
                 }   
                     
@@ -405,6 +409,10 @@ app.get("/pay",function(req, res) {
                 cost = cost  + parseInt(cart[i].price);
                 
             }
+            
+            
+           
+            
             
             res.render("mailSender.ejs",{cart:cart,info:info[0],cost:cost})
                   
