@@ -40,7 +40,7 @@
     <div class = "container">
         <div class="list-group">
  <% for(var i  =0;i<cart.length;i++){ %>
-  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+  <a href="/delete/item/<%= cart[i]._id %>" class="list-group-item list-group-item-action flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1"><%= cart[i].item %></h5>
       <small>Price: <%= cart[i].price %></small>
@@ -53,6 +53,16 @@
   <% } %>
   
 </div>
+        <div class = "row">
+          <div class = "col"></div>
+          <div class = "col"></div>
+          <div class = "col"></div>
+          <div class = "col"><a href="/pay" class="btn btn-primary btn-lg active" style = "margin-left:116px;" role="button" aria-pressed="true">Pay now:<%= cost %></a></div>
+          
+          
+        </div>
+        
+        
         
     </div>
     

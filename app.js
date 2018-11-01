@@ -358,12 +358,20 @@ app.get("/additem/:name/:price/:username",function(req, res) {
             })
     
 })
-app.get("/cart",function(req, res) {
-    
+app.get("/cart",isLoggedIn,function(req, res) {
+    var cost = 0;
     cart.find({username:req.user.username},function(err, cart) {
         if(!err){
             
-            res.render("cart.ejs",{cart:cart})
+            for(var i = 0;i<cart.length;i++){
+                
+                cost = cost  + parseInt(cart[i].price);
+                
+            }
+            
+            
+            
+            res.render("cart.ejs",{cart:cart,cost:cost})
             
         }
         
@@ -373,5 +381,51 @@ app.get("/cart",function(req, res) {
     
     
 
+})
+app.get("/delete/item/:id",function(req, res) {
+    cart.findByIdAndRemove(req.params.id,function(err){
+        if(!err){
+            res.redirect("/cart")
+        }
+        
+        
+        
+    })
+})
+
+
+app.get("/pay",function(req, res) {
+    var cost = 0;
+  info.find({username:req.user.username},function(err, info) {
+      if(!err){
+          cart.find({username:req.user.username},function(err, cart) {
+              if(!err){
+                  for(var i = 0;i<cart.length;i++){
+                
+                cost = cost  + parseInt(cart[i].price);
+                
+            }
+            
+            res.render("mailSender.ejs",{cart:cart,info:info[0],cost:cost})
+                  
+                  
+                  
+                  
+                  
+              }
+          })
+          
+          
+          
+          
+          
+      }
+      
+      
+      
+  })  
+    
+    
+    
 })
 app.listen(process.env.PORT,process.env.IP);
