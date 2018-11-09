@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>View Your Information</title>
+	<title>FoodDeliveryApp</title>
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -10,8 +10,6 @@
 </head>
 <body>
    
-
-
  <nav class="navbar navbar-expand-lg navbar-dark bg-dark"">
   <a class="navbar-brand" href="/">TheFoodiesApp</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,34 +21,23 @@
       <li class="nav-item active">
         <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
       </li>
-            <li class="nav-item active">
+      <li class="nav-item active">
         <a class="nav-link" href="/cart">Cart<span class="sr-only">(current)</span></a>
-      </li>s
+      </li>
       <li class="nav-item active">
         <a class="nav-link" href="#">About Us<span class="sr-only">(current)</span></a>
       </li>
-      <%  if(!currentUser){ %>
-        
-        
-        
-        <% }else{ %>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         Profile
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-      
-         <% if(info != "no" ){  %>
-          <a class="dropdown-item" href="/editInfo">Edit Details</a>
-          <a class="dropdown-item" href="/viewInfo">View Details</a>
-          <%}else{  %>
-          <a class="dropdown-item" href="/enterInfo">Enter details</a>
-          <% }  %>
-          
-          
+      <li class="nav-item active">
+        <a class="nav-link" href="/query">Query<span class="sr-only">(current)</span></a>
+      </li><li class="nav-item active">
+        <a class="nav-link" href="/">Complaint<span class="sr-only">(current)</span></a>
       </li>
-      <% } %>
+      
+      
+      
+      
     </ul>
+    
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
      <% if(!currentUser){ %>
@@ -78,19 +65,52 @@
   </div>
 </nav>
 
+
+
     <div class = "container">
         
     
     
     
-    <ul class="list-group">
-  <li class="list-group-item ">Name: <%= info.name  %>></li>
-  <li class="list-group-item">Phone Number: <%= info.phNo %></li>
-  <li class="list-group-item">Hostel:<%= info.hostel %></li>
-  <li class="list-group-item">room number:<%= info.roomNo %></li>
+    
+    
+    
+    <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Login</h1>
+    <p class="lead">Enter Commnet</p>
+  </div>
+</div>
+    
+  <form action = "/newcomment/<%= query_id %>" method = "POST">
+            
+            
+  <div class="form-group row">
+            <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Your Comment</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control form-control-lg" id="colFormLabelLg" placeholder = "Comment" name = "comment">
+                </div>
+  </div>
+ 
   
-</ul>
-  <a href = "/editInfo">Edit Info</a>  
+  
+  
+  
+  
+  <!--<div class="form-group row">-->
+  <!--  <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Author</label>-->
+  <!--      <div class="col-sm-10">-->
+  <!--        <input type="text" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Author" name = "comment[author]">-->
+  <!--      </div>-->
+  <!--</div>-->
+    
+    
+<button  class="btn btn-primary btn-block">Submit</button>
+
+</form>
+        
+        
+    
 
     
 

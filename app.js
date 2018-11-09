@@ -6,8 +6,10 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 var user = require("./models/user.js");
 var cart = require("./models/cart.js");
+var query  = require("./models/query.js");
 var eatable = require("./models/eatables.js");
 var info  =require("./models/userInfo.js");
+var comment  =require("./models/comments.js");
 var LocalStrategy = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
 var flash = require("connect-flash");
@@ -435,5 +437,88 @@ app.get("/pay",function(req, res) {
     
     
     
+})
+
+app.get("/query",function(req, res) {
+    query.find({},function(err, query) {
+    if(!err){
+        
+        res.render("query.ejs",{query:query})
+        
+    }    
+    })
+    
+    
+    
+})
+app.get("/newquery",function(req, res) {
+    res.render("newquery.ejs")
+})
+
+app.post("/newquery",isLoggedIn,function(req, res) {
+    query.create({username:req.user.username,ques:req.body.ques},function(err, query) {
+        if(!err){
+            console.log(query)
+            query.save()
+            res.redirect("/query")
+        }
+    })
+    
+    
+})
+app.get("/query/comments/:id",isLoggedIn,function(req, res) {
+    query.findById(req.params.id,function(err,query){
+        if(!err){
+            
+            comment.find({query_id:req.params.id},function(err, comments) {
+                if(!err){
+                        console.log(comments)
+                        res.render("comments.ejs",{query_id:req.params.id,comments:comments,query:query})
+
+                }else{
+                    console.log("hey")
+                }
+            })
+            
+            
+        }
+        
+        
+    })
+
+})
+
+
+app.get("/newcomment/:id",isLoggedIn,function(req, res) {
+    
+    res.render("newcomment.ejs",{query_id:req.params.id})
+    
+})
+app.post("/newcomment/:id",function(req, res) {
+    comment.create({query_id:req.params.id,username:req.user.username,comment:req.body.comment},function(err, comment) {
+        if(!err){
+            console.log("comment created")
+            comment.save()
+            res.redirect("/query/comments/"+ req.params.id)
+        }
+    })
+    
+    
+})
+app.get("/comments/delete/:id1/:id2",function(req, res) {
+    comment.findByIdAndRemove(req.params.id1,function(err) {
+        if(!err){
+            
+            res.redirect("/query/comments/" + req.params.id2)
+            
+        }
+    })
+})
+app.get("/query/delete/:id",function(req, res) {
+    query.findByIdAndRemove(req.params.id,function(err) {
+        if(!err){
+            res.redirect("/query")
+        }
+    })
 })
 app.listen(process.env.PORT,process.env.IP);
