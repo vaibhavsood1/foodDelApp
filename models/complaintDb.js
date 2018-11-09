@@ -11,7 +11,7 @@ var complaintSchema= new Schema({
  phNo:String,
  vendor:String,
  vendorSol:Number,
- CustomerSol:Number
+ customerSol:Number
 });
 
 module.exports = mongoose.model("complaint",complaintSchema);

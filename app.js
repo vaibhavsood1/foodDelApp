@@ -8,6 +8,7 @@ var user = require("./models/user.js");
 var cart = require("./models/cart.js");
 var query  = require("./models/query.js");
 var eatable = require("./models/eatables.js");
+var complaint = require("./models/complaintDb.js");
 var info  =require("./models/userInfo.js");
 var comment  =require("./models/comments.js");
 var LocalStrategy = require("passport-local");
@@ -27,7 +28,11 @@ app.use(passport.session());
 passport.use(new LocalStrategy(user.authenticate()));
 passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
-
+// complaint.deleteMany({},function(err){
+//     if(!err){
+//       console.log("ehy") 
+//     }
+// })
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
@@ -46,6 +51,25 @@ app.get("/register",function(req,res){
     
     
 })
+function isVendor(req,res,next){
+    info.find({username:req.user.username},function(err, info) {
+        if(!err){
+            if(info[0].vendor){
+                
+                return next();
+                
+            }
+            req.flash("error","You have to be a Vendor to authorise this action")
+            res.redirect("/");
+            
+        }
+    })
+    
+    
+    
+    
+    
+}
 app.post("/register", function(req, res){
     user.register(new user({username: req.body.username}), req.body.password, function(err, user){
         if(err){
@@ -520,5 +544,74 @@ app.get("/query/delete/:id",function(req, res) {
             res.redirect("/query")
         }
     })
+})
+app.get("/complaint",function(req, res) {
+    info.find({username:req.user.username},function(err,info){
+     if(!err){
+        
+        
+        
+         if(info[0].vendor){
+             
+             complaint.find({vendor:info[0].name},function(err,complaints){
+                 if(!err){
+                     
+                   res.render("complaint.ejs",{complaints:complaints})  
+                     
+                 }
+                 
+                 
+             })
+             
+             
+             
+             
+         }else{
+             complaint.find({username:req.user.username},function(err, complaints) {
+                 if(!err){
+                     
+                     res.render("complaint.ejs",{complaints:complaints})
+                     
+                 }
+             })
+             
+             
+         }
+         
+     }   
+        
+        
+    })
+    
+    
+    
+    
+})
+app.get("/newcomplaint",function(req, res) {
+    res.render("newcomplaint.ejs")
+})
+app.post("/newcomplaint",function(req, res) {
+    complaint.create({username:req.user.username,complaint:req.body.complaint,phNo:req.body.phNo,vendor:req.body.vendor,vendorSol:0,customerSol:0},function(err, complaint) {
+        if(!err){
+            console.log(complaint)
+            res.redirect("/complaint")
+            
+        }
+    })
+})
+app.get("/complaint/solved/:id",isVendor,function(req, res) {
+    complaint.findById(req.params.id,function(err,complaint){
+        if(!err){
+            console.log("hey")
+            complaint.vendorSol = 1;
+            complaint.save()
+            res.redirect("/complaint")
+        }
+        
+        
+        
+    })
+    
+    
 })
 app.listen(process.env.PORT,process.env.IP);

@@ -19,7 +19,6 @@
   
   
   
-  
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark"">
   <a class="navbar-brand" href="/">TheFoodiesApp</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,37 +39,12 @@
       <li class="nav-item active">
         <a class="nav-link" href="/query">Query<span class="sr-only">(current)</span></a>
       </li><li class="nav-item active">
-        <a class="nav-link" href="/complaint">Complaint<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/">Complaint<span class="sr-only">(current)</span></a>
       </li>
       
       
       
-      <%  if(!currentUser){ %>
-        
-        
-        
-        <% }else{ %>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         Profile
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
       
-         <% if(info != "no" ){  %>
-          <a class="dropdown-item" href="/editInfo">Edit Details</a>
-          <a class="dropdown-item" href="/viewInfo">View Details</a>
-        <%  if(info.vendor == 1){ %>
-          
-          <a class="dropdown-item" href="/menu">Menu</a>
-          <%  } %>
-
-          <%}else{  %>
-          <a class="dropdown-item" href="/enterInfo">Enter details</a>
-          <% }  %>
-          
-          
-      </li>
-      <% } %>
     </ul>
     
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -114,86 +88,36 @@
   
   
   
-  
-  <div class  = "container">
-  
-  <%  if(error&& error.length>0){ %>
-  <div class="alert alert-danger" role="alert">
-  <%= error %>
-  </div>
-<%  } %>
+ <div class  = "container">
 
-<%  if(success&&success.length>0){  %>
-<div class="alert alert-success" role="alert"> 
-  <%= success %>
-</div>
-
-
-<%  } %>
-</div>
-<div class = "container">
-    <div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-4">The FoodDeliveryApp</h1>
-    <p class="lead">Allows the user to order items from COS</p>
-  </div>
-</div>
-    <div class="row">
-        <div class="col-sm-2"></div>
-  <div class="col-sm-4">
-      
-      <div class="ui card">
-  <div class="ui  image">
-    <img src="https://findicons.com/files/icons/61/dragon_soft/256/user.png" class="visible content img-fluid">
-        
-
-  </div>
-  <div class="content">
-    <a class="header">Vendors</a>
-    <div class="meta">
-      <span class="date">Refers to the login page for Vendors only</span>
+   <div class="list-group">
+       <% for(var i = 0;i<complaints.length;i++){ %>
+  <a href="/complaint/solved/<%= complaints[i]._id %>" class="list-group-item list-group-item-action flex-column align-items-start ">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1"><%=  complaints[i].vendor %></h5>
+     
+      <small><%= complaints[i].phNo %></small>
     </div>
-  </div>
-  <div class="extra content">
-    <a>
-      <i class="users icon"></i>
-      2 Members
-    </a>
-  </div>
-</div>
-      
-  </div>
+    <p class="mb-1"><%= complaints[i].complaint %></p>
+    <small>Complaint solved by vendor: <%= complaints[i].vendorSol %></small>
   
-  <div class="col-sm-4">
-      <div class="ui card">
-  <div class="ui  image">
-    <img id = "user_image" src="https://findicons.com/files/icons/61/dragon_soft/256/user.png" class="visible content img-fluid">
+  
+  </a>
+  <% } %>
+</div>
+    
         
-
-  </div>
-  <div class="content">
-    <a class="header" href = "/allvendors">Users</a>
-    <div class="meta">
-      <span class="date">Refers to the login page for Users only</span>
+        
+        
     </div>
-  </div>
-  <div class="extra content">
-    <a>
-      <i class="users icon"></i>
-      <%= count %> Members
-    </a>
-  </div>
+    
+    
 </div>
-      
-  </div>
-          <div class="col-sm-2"></div>
+<div class  = "container">
+    
+   <a href = "/newcomplaint"><button type="button" class="btn btn-primary btn-lg btn-block">New complaint</button></a>
 
 </div>
-    
-    
-    
-    
 </div>
-
 </body>
 </html>
